@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { PRICES, CUSTOM, REVAMP, bundlePrice, stylePrice } = require("./_catalog");
+const { PRICES, CUSTOM, REVAMP, bundlePrice, stylePrice, prePrice } = require("./_catalog");
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
@@ -20,6 +20,8 @@ module.exports = async (req, res) => {
       price = bundlePrice(it.o[0], it.o[1]); lines.push("Bundle " + it.o[0] + "/" + it.o[1] + "in x" + q);
     } else if (it.k === "style" && Array.isArray(it.o)) {
       price = stylePrice(it.o[0], it.o[1]); lines.push("Style " + it.o[0] + "/" + it.o[1] + "in x" + q);
+    } else if (it.k === "pre" && Array.isArray(it.o)) {
+      price = prePrice(it.o); lines.push("PRE-ORDER 70% deposit " + it.o.join("/"));
     } else if (it.k === "revamp") {
       price = REVAMP[it.o]; lines.push("Revamp");
     } else {

@@ -6,3 +6,6 @@ exports.bundlePrice = (t, l) => (![0,1,2,3].includes(t) || !Number.isInteger(l) 
 const SPD = { 16: -12000, 20: -7000, 24: 0, 28: 8000 };
 const ST = { s1:{base:64500}, s3:{base:67000}, s4:{base:64500}, s5:{base:64500}, s2:{tbl:{10:45000,12:47500,14:50000}}, s6:{tbl:{10:45000,12:47500,14:50000}} };
 exports.stylePrice = (id, l) => { const s = ST[id]; if (!s) return NaN; const v = s.tbl ? s.tbl[l] : (SPD[l] === undefined ? NaN : s.base + SPD[l]); return v === undefined ? NaN : v; };
+const PRE = { p1:{base:64500}, p2:{base:64500}, p3:{base:64500}, p4:{base:67000}, p5:{base:64500}, p7:{base:64500}, p8:{base:64500}, p9:{base:64500}, p6:{tbl:{10:45000,12:47500,14:50000}} };
+// Pre-orders: the customer pays a 70% deposit of the full price.
+exports.prePrice = (o) => { let t; if (o[0] === "pb") t = exports.bundlePrice(o[1], o[2]); else { const s = PRE[o[0]]; if (!s) return NaN; t = s.tbl ? s.tbl[o[1]] : (SPD[o[1]] === undefined ? NaN : s.base + SPD[o[1]]); } return (t === undefined || Number.isNaN(t)) ? NaN : Math.round(t * 0.7); };
