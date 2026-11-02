@@ -272,6 +272,9 @@ header{background:#15110c!important;border-bottom:1px solid #2a2218!important;-w
 .sigt h3{font-size:clamp(28px,4vw,38px);color:#faf7f1}.sigt h3 em{color:#ecd089}.sigt p{color:#c2b393;margin:6px 0 16px}.sigt .eyebrow{color:#d9b25f;margin:0 0 6px}
 .sigt .row{display:flex;gap:10px;flex-wrap:wrap}.sigt .btn.ghost{color:#faf7f1;border-color:#faf7f1}.sigt button{background:#ecd089;color:#15110c}
 @media(max-width:640px){.sig{grid-template-columns:116px 1fr;gap:14px;padding:14px}.sigv{width:116px}.sigt h3{font-size:22px}.sigt p{display:none}.sigt .row{gap:8px}}
+
+.sig{grid-template-columns:auto auto 1fr}.sigv{width:170px;cursor:pointer}
+@media(max-width:640px){.sig{grid-template-columns:1fr 1fr;gap:10px}.sigv{width:auto}.sigt{grid-column:1/-1}.sigt p{display:block}}
 </style>
 </head>
 <body>
@@ -548,6 +551,11 @@ function openVid(s){const d=document.createElement("div");d.style.cssText="posit
 const box=document.createElement("div");box.className="sig";box.innerHTML='<div class="sigv"><video muted loop playsinline preload="metadata"></video></div><div class="sigt"><p class="eyebrow">Watch</p><h3>Hair that <em>moves</em> with you</h3><p>See the shine, the flow and the finish up close.</p><div class="row"><button>Watch with sound</button><a class="btn ghost" href="#shop">Shop wigs</a></div></div>';
 const v=box.querySelector("video");v.poster=poster;v.src=src;box.querySelector("button").onclick=()=>openVid(src);$("#catGrid").before(box);
 new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?v.play().catch(()=>{}):v.pause()),{threshold:.35}).observe(v)})();
+
+(function(){const box=document.querySelector(".sig");if(!box)return;const f=box.querySelector(".sigv"),B={"v": "media/reel-box.mp4", "p": "media/reel-box.jpg"};
+const d=document.createElement("div");d.className="sigv";d.innerHTML='<video muted loop playsinline preload="metadata"></video>';const v2=d.querySelector("video");v2.poster=B.p;v2.src=B.v;f.after(d);
+const v1=f.querySelector("video");v1.onclick=()=>openVid(v1.getAttribute("src"));v2.onclick=()=>openVid(B.v);
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?v2.play().catch(()=>{}):v2.pause()),{threshold:.35});io.observe(v2)})();
 </script>
 </body>
 </html>
